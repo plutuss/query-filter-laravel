@@ -1,7 +1,9 @@
 {
     "name": "plutuss/query-filter-laravel",
     "description": "Query Filter Laravel package.",
+    "keywords": ["laravel", "filter", "query"],
     "minimum-stability": "stable",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
