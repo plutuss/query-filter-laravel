@@ -66,7 +66,8 @@ class UserController extends Controller
     public function index(UserFilter $userFilter)
     {
         $users = User::query()->filter($userFilter)->get();
-       return $users
+       
+        return $users
     }
 }
 ```
