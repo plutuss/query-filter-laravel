@@ -1,0 +1,21 @@
+{
+    "name": "plutuss/query-filter-laravel",
+    "description": "Laravel 10 integration for the Query Filter Laravel package.",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "plutuss",
+            "email": "dima92konovalenko@gmail.com",
+            "homepage": "https://github.com/plutuss"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Plutuss\\": "src/"
+        }
+    }
+}
