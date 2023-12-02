@@ -6,7 +6,7 @@ namespace Plutuss\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-
+use Mockery\Exception;
 
 abstract class QueryFilter implements QueryFilterInterface
 {
@@ -37,13 +37,14 @@ abstract class QueryFilter implements QueryFilterInterface
         $this->builder = $builder;
 
         foreach ($this->filters() as $name => $value) {
-            if (method_exists($this, $name) && !empty($value)) {
-                call_user_func_array([$this, $name], array_filter([$value]));
+            if ($this->checkMethodFilter($name, $value)) {
+                call_user_func_array([$this, $this->methodExistFilter($name)], array_filter([$value]));
             }
         }
 
         return $this->builder;
     }
+
 
     /**
      * @param $param
@@ -53,4 +54,34 @@ abstract class QueryFilter implements QueryFilterInterface
     {
         return explode($this->delimiter, $param);
     }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return bool
+     */
+    private function checkMethodFilter(string $name, mixed $value): bool
+    {
+        return method_exists($this, $this->methodExistFilter($name)) && !empty($value);
+    }
+
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    private function methodExistFilter(string $name): mixed
+    {
+        if (method_exists($this, $name)) {
+            return $name;
+        }
+        if (method_exists($this, str()->camel($name))) {
+            return str()->camel($name);
+        }
+
+        $className = class_basename($this);
+        throw  new Exception("Method {$name} not found  in class {$className}");
+
+    }
+
 }
