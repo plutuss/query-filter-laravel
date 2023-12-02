@@ -7,8 +7,11 @@ Laravel:
  composer require plutuss/query-filter-laravel
 ```
 
+```shell
+ php artisan make:query-filter  NameFilter
+```
 
-- app/Filters/UserFilter
+
 ```php
 <?php
 
@@ -36,8 +39,20 @@ class UserFilter extends QueryFilter
 ```shell
 Plutuss\Traits\HasQueryFilter
 ```
+```php
+<?php
 
--Controller
+namespace App\Models;
+
+use Plutuss\Traits\HasQueryFilter;
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    use HasQueryFilter;
+```
+
+- Controller
 ```php
 <?php
 
