@@ -37,8 +37,8 @@ abstract class QueryFilter implements QueryFilterInterface
         $this->builder = $builder;
 
         foreach ($this->filters() as $name => $value) {
-            if ($this->checkMethodFilter($name, $value)) {
-                call_user_func_array([$this, $this->methodExistFilter($name)], array_filter([$value]));
+            if ($this->checkMethodAndValue($name, $value)) {
+                call_user_func_array([$this, $this->methodExist($name)], array_filter([$value]));
             }
         }
 
@@ -60,9 +60,9 @@ abstract class QueryFilter implements QueryFilterInterface
      * @param mixed $value
      * @return bool
      */
-    private function checkMethodFilter(string $name, mixed $value): bool
+    private function checkMethodAndValue(string $name, mixed $value): bool
     {
-        return method_exists($this, $this->methodExistFilter($name)) && !empty($value);
+        return method_exists($this, $this->methodExist($name)) && !empty($value);
     }
 
 
@@ -70,7 +70,7 @@ abstract class QueryFilter implements QueryFilterInterface
      * @param string $name
      * @return mixed
      */
-    private function methodExistFilter(string $name): mixed
+    private function methodExist(string $name): mixed
     {
         if (method_exists($this, $name)) {
             return $name;
