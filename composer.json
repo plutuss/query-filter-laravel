@@ -17,5 +17,12 @@
         "psr-4": {
             "Plutuss\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Plutuss\\Providers\\QueryFilterServiceProvider"
+            ]
+        }
     }
 }

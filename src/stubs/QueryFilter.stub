@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Plutuss\Filter\QueryFilter;
+
+class DummyClass extends QueryFilter
+{
+    public function nameFieldColumnInDatabase($value)
+    {
+        //TODO: The name of the method must match the name of the Field in the database
+    }
+}
