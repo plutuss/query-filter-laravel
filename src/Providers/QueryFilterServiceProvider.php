@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Plutuss\Provider;
+namespace Plutuss\Providers;
 
 
 use Illuminate\Support\ServiceProvider;
