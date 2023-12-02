@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 
-abstract class QueryFilter
+abstract class QueryFilter implements QueryFilterInterface
 {
     public Request $request;
 

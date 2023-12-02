@@ -3,16 +3,16 @@
 namespace Plutuss\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
-use Plutuss\Filter\QueryFilter;
+use Plutuss\Filter\QueryFilterInterface;
 
 trait HasQueryFilter
 {
     /**
      * @param Builder $builder
-     * @param QueryFilter $filter
+     * @param QueryFilterInterface $filter
      * @return Builder
      */
-    public function scopeFilter(Builder $builder, QueryFilter $filter): Builder
+    public function scopeFilter(Builder $builder, QueryFilterInterface $filter): Builder
     {
         return $filter->apply($builder);
     }
