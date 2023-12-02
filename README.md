@@ -1,7 +1,7 @@
 ## Installed packages
 
 Laravel:
-- [GitHub]().
+- [GitHub](https://github.com/plutuss/query-filter-laravel).
 
 ```shell
  composer require plutuss/query-filter-laravel
