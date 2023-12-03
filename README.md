@@ -33,7 +33,7 @@ class UserFilter extends QueryFilter
             });
     }
 
-      public function email($value)
+    public function email($value)
     {
         $this->builder
             ->when($value, function ($query) use ($value) {
