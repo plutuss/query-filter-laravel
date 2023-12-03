@@ -10,14 +10,14 @@ use Mockery\Exception;
 
 abstract class QueryFilter implements QueryFilterInterface
 {
-    public Request $request;
 
-    protected Builder $builder;
-    protected string $delimiter = ',';
-
-    public function __construct(Request $request)
+    public function __construct(
+        public Request    $request,
+        protected Builder $builder,
+        protected string  $delimiter = ','
+    )
     {
-        $this->request = $request;
+
     }
 
     /**
