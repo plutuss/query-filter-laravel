@@ -15,9 +15,7 @@ abstract class QueryFilter implements QueryFilterInterface
         public Request    $request,
         protected Builder $builder,
         protected string  $delimiter = ','
-    )
-    {
-
+    ) {
     }
 
     /**
@@ -47,10 +45,10 @@ abstract class QueryFilter implements QueryFilterInterface
 
 
     /**
-     * @param $param
-     * @return false|string[]
+     * @param string $param
+     * @return array|bool
      */
-    protected function paramToArray($param): array|bool
+    protected function paramToArray(string $param): array|bool
     {
         return explode($this->delimiter, $param);
     }
@@ -75,13 +73,12 @@ abstract class QueryFilter implements QueryFilterInterface
         if (method_exists($this, $name)) {
             return $name;
         }
-        if (method_exists($this, str()->camel($name))) {
-            return str()->camel($name);
+        $camelName = str()->camel($name);
+        if (method_exists($this, $camelName)) {
+            return $camelName;
         }
 
         $className = class_basename($this);
         throw  new Exception("Method {$name} not found  in class {$className}");
-
     }
-
 }

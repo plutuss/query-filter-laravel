@@ -32,6 +32,14 @@ class UserFilter extends QueryFilter
                 return $query->where('name', 'like', '%' . $value . '%');
             });
     }
+
+      public function email($value)
+    {
+        $this->builder
+            ->when($value, function ($query) use ($value) {
+                return $query->where('email', $value);
+            });
+    }
 }
 ```
 
