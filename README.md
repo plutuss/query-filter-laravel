@@ -35,7 +35,7 @@ class UserFilter extends QueryFilter
 
     public function email($value)
     {
-        $this->builder
+        return $this->builder
             ->when($value, function ($query) use ($value) {
                 return $query->where('email', $value);
             });
