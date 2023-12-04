@@ -15,7 +15,8 @@ abstract class QueryFilter implements QueryFilterInterface
         public Request    $request,
         protected Builder $builder,
         protected string  $delimiter = ','
-    ) {
+    )
+    {
     }
 
     /**
@@ -77,8 +78,6 @@ abstract class QueryFilter implements QueryFilterInterface
         if (method_exists($this, $camelName)) {
             return $camelName;
         }
-
-        $className = class_basename($this);
-        throw  new Exception("Method {$name} not found  in class {$className}");
+        return '';
     }
 }
