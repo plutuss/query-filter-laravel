@@ -18,7 +18,10 @@
     "autoload": {
         "psr-4": {
             "Plutuss\\": "src/"
-        }
+        },
+        "files":[
+            "src/helpers.php"
+        ]
     },
     "extra": {
         "laravel": {

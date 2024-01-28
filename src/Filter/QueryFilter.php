@@ -24,6 +24,23 @@ abstract class QueryFilter implements QueryFilterInterface
      */
     public function filters(): array|string|null
     {
+
+        if ($this->request->has('components')) {
+            foreach (getDataFromComponent($this->request->get('components')) as $data) {
+                $result = [];
+                if (is_array($data)) {
+
+                    foreach ($data as $key => $item) {
+
+                        $result[$key] = $item;
+
+                    }
+                }
+            }
+
+            return $result;
+        }
+        
         return $this->request->query();
     }
 
