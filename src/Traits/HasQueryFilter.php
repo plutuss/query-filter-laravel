@@ -10,10 +10,11 @@ trait HasQueryFilter
     /**
      * @param Builder $builder
      * @param QueryFilterInterface $filter
+     * @param $data
      * @return Builder
      */
-    public function scopeFilter(Builder $builder, QueryFilterInterface $filter): Builder
+    public function scopeFilter(Builder $builder, QueryFilterInterface $filter, $data = []): Builder
     {
-        return $filter->apply($builder);
+        return $filter->apply($builder, $data);
     }
 }
