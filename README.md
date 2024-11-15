@@ -25,11 +25,12 @@ use Plutuss\Filter\QueryFilter;
 
 class UserFilter extends QueryFilter
 {
-    public function name($value)
+    public function name($value) //  public function first_name($value)  or  public function firstName($value)
     {
         return $this->builder
             ->when($value, function ($query) use ($value) {
                 return $query->where('name', 'like', '%' . $value . '%');
+            //  return $query->where('first_name', 'like', '%' . $value . '%');
             });
     }
 
