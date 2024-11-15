@@ -11,6 +11,7 @@ trait WithQueryParameters
     private function getQueryParams(): array
     {
         $array = [];
+
         foreach ($this->queryString as $name) {
             if ($this->{$name}) {
                 $array[$name] = $this->{$name};

@@ -8,8 +8,8 @@ use Plutuss\Filter\QueryFilter;
 
 class DummyClass extends QueryFilter
 {
-    public function nameFieldColumnInDatabase($value)
+    public function nameColumn($value)
     {
-        //TODO: The name of the method must match the name of the Field in the database
+        //TODO: The name of the method must match the name of the field in the query that goes into the request
     }
 }

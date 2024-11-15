@@ -14,6 +14,7 @@ abstract class QueryFilter implements QueryFilterInterface
     public function __construct(
         public Request    $request,
         protected Builder $builder,
+        protected ?array  $data = null,
         protected string  $delimiter = ','
     )
     {
@@ -24,16 +25,33 @@ abstract class QueryFilter implements QueryFilterInterface
      */
     public function filters(): array|string|null
     {
+        $data = $this->getData();
+
+        if (!empty($data)) {
+            return $data;
+        }
+
         return $this->request->query();
+    }
+
+    protected function getData(): array
+    {
+        return $this->data;
+    }
+
+    public function setData(array $data): static
+    {
+        $this->data = $data;
+
+        return $this;
     }
 
 
     /**
      * @param Builder $builder
-     * @param $data
      * @return Builder
      */
-    public function apply(Builder $builder, $data = []): Builder
+    public function apply(Builder $builder): Builder
     {
         $filters = !empty($data) ? $data : $this->filters();
 
@@ -71,17 +89,22 @@ abstract class QueryFilter implements QueryFilterInterface
 
     /**
      * @param string $name
-     * @return mixed
+     * @return string
      */
-    private function methodExist(string $name): mixed
+    private function methodExist(string $name): string
     {
         if (method_exists($this, $name)) {
             return $name;
         }
-        $camelName = str()->camel($name);
+
+        $camelName = str($name)
+            ->camel()
+            ->toString();
+
         if (method_exists($this, $camelName)) {
             return $camelName;
         }
+
         return '';
     }
 }
