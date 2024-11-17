@@ -53,11 +53,10 @@ abstract class QueryFilter implements QueryFilterInterface
      */
     public function apply(Builder $builder): Builder
     {
-        $filters = !empty($data) ? $data : $this->filters();
 
         $this->builder = $builder;
 
-        foreach ($filters as $name => $value) {
+        foreach ($this->filters() as $name => $value) {
             if ($this->checkMethodAndValue($name, $value)) {
                 call_user_func_array([$this, $this->methodExist($name)], array_filter([$value]));
             }
