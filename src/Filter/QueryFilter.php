@@ -10,15 +10,11 @@ use Mockery\Exception;
 
 abstract class QueryFilter implements QueryFilterInterface
 {
+    protected Builder $builder;
 
+    protected ?array $data = null;
 
-        public Request    $request;
-
-        protected Builder $builder;
-
-        protected ?array  $data = null;
-
-        protected string  $delimiter = ',';
+    protected string $delimiter = ',';
 
 
     /**
@@ -32,7 +28,7 @@ abstract class QueryFilter implements QueryFilterInterface
             return $data;
         }
 
-        return $this->request->query();
+        return request()->query();
     }
 
     protected function getData(): array
