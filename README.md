@@ -10,6 +10,7 @@ and control which filter methods callers can access.
 - Filter by user IDs, status, dates, and related records.
 - Validate scalar values and arrays with Laravel validation rules.
 - Generate filter classes with `php artisan make:query-filter`.
+- Select a filter for a controller action with a PHP method attribute.
 - Read Livewire query string properties, including zero and false values.
 - Tested with PHP 8.0–8.5 and Laravel 9–13 using PHPUnit and SQLite.
 
@@ -126,6 +127,50 @@ Values `0`, `"0"`, and `false` reach filter methods. Values `null`, `""`, and `[
 are skipped after validation; use `nullable` if a rule should accept null.
 Unknown parameters are ignored unless your validation rules reject them.
 Avoid truthiness checks such as `when($value)` inside filters that must accept zero.
+
+## Controller method attributes
+
+Use `#[UseQueryFilter]` to select which filter Laravel injects into a controller
+action. You still build the Eloquent query and apply the filter yourself:
+
+```php
+namespace App\Http\Controllers;
+
+use App\Filters\UserFilter;
+use App\Models\User;
+use Plutuss\Attributes\UseQueryFilter;
+use Plutuss\Filter\QueryFilterInterface;
+
+class UserController extends Controller
+{
+    #[UseQueryFilter(UserFilter::class)]
+    public function index(QueryFilterInterface $filter)
+    {
+        return User::query()
+            ->where('is_public', true)
+            ->filter($filter)
+            ->paginate(20);
+    }
+}
+```
+
+The model still needs `HasQueryFilter`. The package service provider registers
+attribute resolution automatically through Laravel package discovery; no extra
+middleware or base controller is required. Constructor dependencies on the filter
+are resolved through Laravel's container.
+
+The attribute only selects the filter class. It does not execute queries, apply
+filters, or validate request data until you call `filter()` or `apply()`. You can
+pass explicit data with `->filter($filter, $data)` as usual.
+
+Each action can select a different filter. Named, invokable, and inherited actions
+work with normal and cached controller routes. The argument must be typed as
+`QueryFilterInterface` to use attribute selection. Without an attribute, inject
+the concrete filter class as before. An existing application binding for
+`QueryFilterInterface` takes precedence over the package's default resolver.
+
+Attributes are read from the current Laravel controller route. Direct PHP method
+calls and closure routes do not select an action filter through this attribute.
 
 ## Validate an array of user IDs
 

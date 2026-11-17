@@ -35,6 +35,13 @@ protected ?array $allowedFilters = ['name', 'active', 'createdAfter'];
 The list uses declared method names. Both `created_after` and `createdAfter` can
 select the `createdAfter` method. An empty list disables all filters.
 
+## Optional controller attributes
+
+The development version also supports `#[UseQueryFilter(YourFilter::class)]` on
+controller actions that accept `QueryFilterInterface`. This is an additional
+injection option: existing concrete filter injection and model scopes are unchanged.
+The attribute does not apply filters automatically. See the README for usage.
+
 ## Validation
 
 Validation is opt-in through the protected `$rules` array. Without rules, input

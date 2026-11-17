@@ -52,7 +52,10 @@ IDs before modifying the query. Declare allowed filter methods to keep public
 helpers out of request-driven dispatch. Filter related records with Eloquent
 relationships and read Livewire query string properties with the included trait.
 
-The package includes an Artisan generator, examples, an upgrade guide, and 23
+The package includes optional controller method attributes for selecting the
+injected filter while retaining manual query construction and filter application.
+
+The package includes an Artisan generator, examples, an upgrade guide, and 35
 PHPUnit tests covering filtering, validation, class generation, Livewire parameters,
 and real database queries. CI covers PHP 8.0–8.5 paired with Laravel 9–13.
 Released under the MIT license.
