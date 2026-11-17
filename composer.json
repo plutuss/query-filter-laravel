@@ -1,10 +1,20 @@
 {
     "name": "plutuss/query-filter-laravel",
-    "description": "Query Filter Laravel package.",
+    "description": "Laravel Eloquent query filtering with request validation, filter allowlists, array filters, relationship queries, and Livewire support.",
     "keywords": [
+        "php",
         "laravel",
-        "filter",
-        "query"
+        "eloquent",
+        "laravel-package",
+        "query-filter",
+        "query-filter-laravel",
+        "eloquent-filter",
+        "laravel-filter",
+        "query-builder",
+        "request-filtering",
+        "database-filtering",
+        "validation",
+        "livewire"
     ],
     "minimum-stability": "stable",
     "type": "library",
@@ -45,5 +55,11 @@
         "psr-4": {
             "Plutuss\\Tests\\": "tests/"
         }
+    },
+    "homepage": "https://github.com/plutuss/query-filter-laravel",
+    "support": {
+        "issues": "https://github.com/plutuss/query-filter-laravel/issues",
+        "source": "https://github.com/plutuss/query-filter-laravel",
+        "docs": "https://github.com/plutuss/query-filter-laravel/blob/main/README.md"
     }
 }

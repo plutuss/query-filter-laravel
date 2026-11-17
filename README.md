@@ -1,6 +1,22 @@
 # Query Filter Laravel
 
-Apply HTTP query parameters or explicit data to Eloquent queries.
+Laravel Eloquent query filtering with request validation, filter allowlists,
+array filters, relationship queries, and Livewire support.
+
+Move filtering logic into reusable PHP classes. Apply HTTP query parameters or
+explicit input to Eloquent queries, validate values before changing the query,
+and control which filter methods callers can access.
+
+- Filter by user IDs, status, dates, and related records.
+- Validate scalar values and arrays with Laravel validation rules.
+- Generate filter classes with `php artisan make:query-filter`.
+- Read Livewire query string properties, including zero and false values.
+- Tested with PHP 8.0–8.3 and Laravel 9–12 using PHPUnit and SQLite.
+
+[Packagist](https://packagist.org/packages/plutuss/query-filter-laravel) ·
+[Releases](https://github.com/plutuss/query-filter-laravel/releases) ·
+[Report an issue](https://github.com/plutuss/query-filter-laravel/issues) ·
+[MIT license](LICENSE)
 
 ## Installation
 
