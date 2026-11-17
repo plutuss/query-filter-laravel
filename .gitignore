@@ -8,3 +8,4 @@
 /public/css
 /public/js
 composer.lock
+.phpunit.result.cache

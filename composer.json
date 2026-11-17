@@ -1,7 +1,11 @@
 {
     "name": "plutuss/query-filter-laravel",
     "description": "Query Filter Laravel package.",
-    "keywords": ["laravel", "filter", "query"],
+    "keywords": [
+        "laravel",
+        "filter",
+        "query"
+    ],
     "minimum-stability": "stable",
     "type": "library",
     "license": "MIT",
@@ -19,7 +23,7 @@
         "psr-4": {
             "Plutuss\\": "src/"
         },
-        "files":[
+        "files": [
             "src/helpers.php"
         ]
     },
@@ -28,6 +32,18 @@
             "providers": [
                 "Plutuss\\Providers\\QueryFilterServiceProvider"
             ]
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "laravel/framework": "^9.0|^10.0|^11.0|^12.0"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Plutuss\\Tests\\": "tests/"
         }
     }
 }
