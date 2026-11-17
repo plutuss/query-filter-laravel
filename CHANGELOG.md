@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add detailed guides for filter behavior, controller attributes, validation,
+  Livewire integration, and troubleshooting, with a documentation index in the README.
+
 ## 1.4.0 — 2026-11-17
 
 - Add `#[UseQueryFilter(FilterClass::class)]` on controller methods for selecting

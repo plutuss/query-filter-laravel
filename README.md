@@ -19,6 +19,21 @@ and control which filter methods callers can access.
 [Report an issue](https://github.com/plutuss/query-filter-laravel/issues) ·
 [MIT license](LICENSE)
 
+## Documentation
+
+Start with the installation and complete filter example below, then use the guides
+for more detailed behavior and integration examples:
+
+| Guide | What it covers |
+| --- | --- |
+| [Filter reference](docs/FILTERS.md) | Input sources, method names, allowed methods, chaining, dates, relationships, and direct application |
+| [Controller attributes](docs/CONTROLLER_ATTRIBUTES.md) | Traditional injection versus attributes, invokable actions, dependencies, route parameters, and custom bindings |
+| [Validation](docs/VALIDATION.md) | Optional values, arrays of IDs, aliases, Form Requests, JSON input, and validation errors |
+| [Livewire](docs/LIVEWIRE.md) | Query string properties, options, pagination, aliases, and explicit component data |
+| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common setup, injection, input type, and empty value problems |
+| [Upgrade guide](docs/UPGRADING.md) | Updating from 1.3.x or earlier and preserving existing behavior |
+| [Changelog](CHANGELOG.md) | Features and fixes by release |
+
 ## Installation
 
 ```shell
@@ -109,6 +124,23 @@ class User extends Model
 }
 ```
 
+Traditional controller injection continues to work without an attribute:
+
+```php
+namespace App\Http\Controllers;
+
+use App\Filters\UserFilter;
+use App\Models\User;
+
+class UserController extends Controller
+{
+    public function index(UserFilter $filter)
+    {
+        return User::query()->filter($filter)->paginate(20);
+    }
+}
+```
+
 ```php
 // Uses HTTP query parameters, for example ?active=0&created_after=2025-01-01.
 $users = User::query()->filter(new UserFilter())->get();
@@ -127,6 +159,8 @@ Values `0`, `"0"`, and `false` reach filter methods. Values `null`, `""`, and `[
 are skipped after validation; use `nullable` if a rule should accept null.
 Unknown parameters are ignored unless your validation rules reject them.
 Avoid truthiness checks such as `when($value)` inside filters that must accept zero.
+Validation still runs for explicit empty data: rules such as `required` can reject
+an empty array before any filter is applied.
 
 ## Controller method attributes
 

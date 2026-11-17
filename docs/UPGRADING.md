@@ -45,7 +45,8 @@ select the `createdAfter` method. An empty list disables all filters.
 Version 1.4.0 supports `#[UseQueryFilter(YourFilter::class)]` on
 controller actions that accept `QueryFilterInterface`. This is an additional
 injection option: existing concrete filter injection and model scopes are unchanged.
-The attribute does not apply filters automatically. See the README for usage.
+The attribute does not apply filters automatically. See the
+[controller attribute guide](CONTROLLER_ATTRIBUTES.md) for examples and binding behavior.
 
 ## Validation
 
@@ -59,6 +60,7 @@ They do not cast input. Use rules such as `string`, `array`, `boolean`, and
 
 If an existing filter already declares properties named `$rules` or `$allowedFilters`,
 use the same property types as the base class: `array` and `?array`, respectively.
+See [validation](VALIDATION.md) for array rules, aliases, and Form Request examples.
 
 ## Livewire and generated classes
 
