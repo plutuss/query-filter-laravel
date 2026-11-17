@@ -11,7 +11,7 @@ and control which filter methods callers can access.
 - Validate scalar values and arrays with Laravel validation rules.
 - Generate filter classes with `php artisan make:query-filter`.
 - Read Livewire query string properties, including zero and false values.
-- Tested with PHP 8.0–8.3 and Laravel 9–12 using PHPUnit and SQLite.
+- Tested with PHP 8.0–8.5 and Laravel 9–13 using PHPUnit and SQLite.
 
 [Packagist](https://packagist.org/packages/plutuss/query-filter-laravel) ·
 [Releases](https://github.com/plutuss/query-filter-laravel/releases) ·
@@ -192,8 +192,19 @@ composer test
 
 Tests cover request input, explicit data, reserved methods, aliases, validation,
 Livewire parameters, generated files, and actual Eloquent queries on SQLite.
-GitHub Actions checks PHP 8.0 / Laravel 9, PHP 8.1 / Laravel 10,
-PHP 8.2 / Laravel 11, and PHP 8.3 / Laravel 12. Older framework releases are
+GitHub Actions checks these combinations:
+
+| Laravel | PHP |
+| --- | --- |
+| 9 | 8.0 |
+| 10 | 8.1 |
+| 11 | 8.2 |
+| 12 | 8.3, 8.4, 8.5 |
+| 13 | 8.3, 8.4, 8.5 |
+
+The Composer constraint `^8.0` includes PHP 8.4 and 8.5. Laravel 13 requires
+PHP 8.3 or newer; see the [Laravel release notes](https://laravel.com/framework/docs/13.x/releases).
+Older framework releases are
 included only for compatibility checks; the CI dependency step permits their
 known advisories without changing consumer Composer settings.
 

@@ -5,7 +5,7 @@ composer require plutuss/query-filter-laravel:^1.3
 ```
 
 Existing public instance filter methods continue to work without extra configuration.
-PHP 8.0 or newer is required. CI covers Laravel 9–12 with their corresponding PHP versions.
+PHP 8.0 or newer is required. CI covers Laravel 9–13 with their corresponding PHP versions.
 
 ## Explicit empty data
 

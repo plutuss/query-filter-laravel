@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add Laravel 13 to development dependencies and the compatibility matrix.
+- Test Laravel 12 and 13 on PHP 8.4 and 8.5, retaining coverage for older versions.
+- Simplify the PHP constraint to `^8.0`, which already includes PHP 8.4 and 8.5.
+- Expand English package metadata, search keywords, and promotional documentation.
+
 ## 1.3.0 — 2026-11-17
 
 ### Added

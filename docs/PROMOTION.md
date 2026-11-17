@@ -54,7 +54,7 @@ relationships and read Livewire query string properties with the included trait.
 
 The package includes an Artisan generator, examples, an upgrade guide, and 23
 PHPUnit tests covering filtering, validation, class generation, Livewire parameters,
-and real database queries. CI covers PHP 8.0–8.3 paired with Laravel 9–12.
+and real database queries. CI covers PHP 8.0–8.5 paired with Laravel 9–13.
 Released under the MIT license.
 
 ## Optional social hashtags
