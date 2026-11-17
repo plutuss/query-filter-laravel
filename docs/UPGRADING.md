@@ -1,11 +1,16 @@
-# Upgrading to 1.3.0
+# Upgrading to 1.4.0
 
 ```shell
-composer require plutuss/query-filter-laravel:^1.3
+composer require plutuss/query-filter-laravel:^1.4
 ```
 
 Existing public instance filter methods continue to work without extra configuration.
 PHP 8.0 or newer is required. CI covers Laravel 9–13 with their corresponding PHP versions.
+
+Upgrading from 1.3.x preserves existing filtering behavior. Version 1.4.0 adds
+optional controller attributes and verifies PHP 8.4, PHP 8.5, and Laravel 13.
+The notes below also cover changes introduced in 1.3.0 for users upgrading from
+older releases.
 
 ## Explicit empty data
 
@@ -37,7 +42,7 @@ select the `createdAfter` method. An empty list disables all filters.
 
 ## Optional controller attributes
 
-The development version also supports `#[UseQueryFilter(YourFilter::class)]` on
+Version 1.4.0 supports `#[UseQueryFilter(YourFilter::class)]` on
 controller actions that accept `QueryFilterInterface`. This is an additional
 injection option: existing concrete filter injection and model scopes are unchanged.
 The attribute does not apply filters automatically. See the README for usage.

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.4.0 — 2026-11-17
 
 - Add `#[UseQueryFilter(FilterClass::class)]` on controller methods for selecting
   the injected `QueryFilterInterface`; query construction and application remain manual.
@@ -8,6 +8,21 @@
 - Test Laravel 12 and 13 on PHP 8.4 and 8.5, retaining coverage for older versions.
 - Simplify the PHP constraint to `^8.0`, which already includes PHP 8.4 and 8.5.
 - Expand English package metadata, search keywords, and promotional documentation.
+
+### Validation
+
+- All 35 PHPUnit tests pass across nine PHP/Laravel combinations, including
+  PHP 8.4 and 8.5 with Laravel 12 and 13.
+- Controller attribute tests cover manual query application, concrete filter
+  injection, route parameters, invokable and inherited actions, cached routes,
+  dependency injection, and isolation between requests.
+
+### Upgrade notes
+
+Existing model scopes and concrete filter injection continue to work unchanged.
+Controller attributes are optional and only select the filter class; queries and
+filter application remain under the controller's control. See the
+[upgrade guide](https://github.com/plutuss/query-filter-laravel/blob/1.4.0/docs/UPGRADING.md).
 
 ## 1.3.0 — 2026-11-17
 

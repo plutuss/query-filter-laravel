@@ -29,7 +29,7 @@ php artisan make:query-filter UserFilter
 The command creates a filter under your application namespace in `Filters`.
 Nested names such as `Admin/UserFilter` are supported. Existing files are preserved.
 
-See [changes in 1.3.0](CHANGELOG.md) and the [upgrade guide](docs/UPGRADING.md).
+See [changes in 1.4.0](CHANGELOG.md) and the [upgrade guide](docs/UPGRADING.md).
 
 ## Define a filter
 
@@ -255,7 +255,7 @@ known advisories without changing consumer Composer settings.
 
 ## Releases
 
-Releases use annotated Git tags such as `1.3.0`; Composer reads the package version
+Releases use annotated Git tags such as `1.4.0`; Composer reads the package version
 from the tag. Each release must have a matching section in [CHANGELOG.md](CHANGELOG.md).
 Pushing a version tag runs the full test matrix, then publishes a GitHub Release
 using that changelog section. A failed test prevents publication.
