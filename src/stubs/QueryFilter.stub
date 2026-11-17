@@ -8,8 +8,14 @@ use Plutuss\Filter\QueryFilter;
 
 class DummyClass extends QueryFilter
 {
-    public function nameColumn($value)
+    protected ?array $allowedFilters = ['name'];
+
+    protected array $rules = [
+        'name' => ['sometimes', 'nullable', 'string', 'max:255'],
+    ];
+
+    public function name(string $value): void
     {
-        //TODO: The name of the method must match the name of the field in the query that goes into the request
+        $this->builder->where('name', $value);
     }
 }

@@ -34,6 +34,6 @@ class QueryFilterMakeCommand extends GeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return 'App\Filters';
+        return trim($rootNamespace, '\\') . '\\Filters';
     }
 }

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Plutuss\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Mockery\Exception;
+use ReflectionMethod;
 
 abstract class QueryFilter implements QueryFilterInterface
 {
@@ -16,6 +15,11 @@ abstract class QueryFilter implements QueryFilterInterface
 
     protected string $delimiter = ',';
 
+    /** @var list<string>|null Null preserves automatic discovery of public filters. */
+    protected ?array $allowedFilters = null;
+
+    /** @var array<string, mixed> Laravel validation rules for filter input. */
+    protected array $rules = [];
 
     /**
      * @return array|string|null
@@ -24,14 +28,14 @@ abstract class QueryFilter implements QueryFilterInterface
     {
         $data = $this->getData();
 
-        if (!empty($data)) {
+        if ($data !== null) {
             return $data;
         }
 
         return request()->query();
     }
 
-    protected function getData(): array
+    protected function getData(): ?array
     {
         return $this->data;
     }
@@ -53,9 +57,19 @@ abstract class QueryFilter implements QueryFilterInterface
 
         $this->builder = $builder;
 
-        foreach ($this->filters() as $name => $value) {
-            if ($this->checkMethodAndValue($name, $value)) {
-                call_user_func_array([$this, $this->methodExist($name)], array_filter([$value]));
+        $filters = $this->filters();
+
+        if ($this->rules !== []) {
+            // Validate before modifying the query. Keep fields without rules available
+            // for backwards compatibility; allowedFilters controls dispatch separately.
+            validator($filters, $this->validationRulesFor($filters))->validate();
+        }
+
+        foreach ($filters as $name => $value) {
+            $method = $this->methodExist((string) $name);
+
+            if ($method !== '' && $value !== null && $value !== '' && $value !== []) {
+                $this->{$method}($value);
             }
         }
 
@@ -74,22 +88,11 @@ abstract class QueryFilter implements QueryFilterInterface
 
     /**
      * @param string $name
-     * @param mixed $value
-     * @return bool
-     */
-    private function checkMethodAndValue(string $name, mixed $value): bool
-    {
-        return method_exists($this, $this->methodExist($name)) && !empty($value);
-    }
-
-
-    /**
-     * @param string $name
      * @return string
      */
     private function methodExist(string $name): string
     {
-        if (method_exists($this, $name)) {
+        if ($this->isFilterMethod($name)) {
             return $name;
         }
 
@@ -97,10 +100,57 @@ abstract class QueryFilter implements QueryFilterInterface
             ->camel()
             ->toString();
 
-        if (method_exists($this, $camelName)) {
+        if ($this->isFilterMethod($camelName)) {
             return $camelName;
         }
 
         return '';
+    }
+
+    private function isFilterMethod(string $name): bool
+    {
+        if (method_exists(self::class, $name) || str_starts_with($name, '__') || !method_exists($this, $name)) {
+            return false;
+        }
+
+        $method = new ReflectionMethod($this, $name);
+
+        return $method->isPublic()
+            && !$method->isStatic()
+            && ($this->allowedFilters === null || in_array($method->getName(), $this->allowedFilters, true));
+    }
+
+    private function validationRulesFor(array $filters): array
+    {
+        $rules = $this->rules;
+
+        foreach ($this->rules as $field => $rule) {
+            $root = explode('.', $field, 2)[0];
+            $method = $this->methodExist($root);
+
+            if ($method === '') {
+                continue;
+            }
+
+            $matchingNames = [];
+
+            foreach ($filters as $name => $value) {
+                $candidate = $this->methodExist((string) $name);
+
+                if ($candidate !== '' && strcasecmp($method, $candidate) === 0) {
+                    $matchingNames[] = $name;
+                }
+            }
+
+            if ($matchingNames !== []) {
+                unset($rules[$field]);
+
+                foreach ($matchingNames as $name) {
+                    $rules[$name . substr($field, strlen($root))] = $rule;
+                }
+            }
+        }
+
+        return $rules;
     }
 }

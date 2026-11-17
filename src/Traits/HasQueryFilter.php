@@ -13,8 +13,12 @@ trait HasQueryFilter
      * @param ?array $data
      * @return Builder
      */
-    public function scopeFilter(Builder $builder, QueryFilterInterface $filter, ?array $data = []): Builder
+    public function scopeFilter(Builder $builder, QueryFilterInterface $filter, ?array $data = null): Builder
     {
+        if ($data === null) {
+            $data = request()->query();
+        }
+
         return $filter
             ->setData($data)
             ->apply($builder);
