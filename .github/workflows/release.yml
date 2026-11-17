@@ -3,28 +3,54 @@ name: Release
 on:
   push:
     tags: ['[0-9]*.[0-9]*.[0-9]*']
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-publish
   cancel-in-progress: false
 
 jobs:
+  prepare:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
+      - name: Find version tag on tested commit
+        id: version
+        run: |
+          tag=$(git tag --points-at HEAD --sort=-version:refname | awk '/^[0-9]+\.[0-9]+\.[0-9]+$/ { print; exit }')
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
   tests:
+    needs: prepare
+    if: needs.prepare.outputs.tag != ''
     uses: ./.github/workflows/tests.yml
+    with:
+      ref: ${{ needs.prepare.outputs.tag }}
 
   publish:
-    needs: tests
+    needs: [prepare, tests]
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.tag }}
       - name: Extract release notes
         env:
-          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
         run: |
           awk -v version="$RELEASE_TAG" '
             index($0, "## " version " ") == 1 { found = 1; next }
@@ -36,8 +62,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
         run: |
+          if gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
+            echo "Release $RELEASE_TAG already exists."
+            exit 0
+          fi
           gh release create "$RELEASE_TAG" \
             --verify-tag \
             --title "$RELEASE_TAG" \

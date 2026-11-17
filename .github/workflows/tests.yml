@@ -5,6 +5,12 @@ on:
     branches: ['**']
   pull_request:
   workflow_call:
+    inputs:
+      ref:
+        description: Commit or tag to test
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -25,6 +31,8 @@ jobs:
             laravel: '^12.0'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
